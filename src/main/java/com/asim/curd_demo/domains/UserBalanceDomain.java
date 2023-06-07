@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class UserBalanceDomain {
@@ -29,11 +28,20 @@ public class UserBalanceDomain {
             throw new ApplicationException(-13, "not found by id");
         }
 
+        UserBalanceDTO userBalanceDTO = userBalanceRepository.findUserBalanceByUserId(dto.getUserId());
+
+        if (userBalanceDTO.getReverseBalance() < dto.getAmount()) {
+            dto.setStatus(CONSTANT.USER_BALANCE_TRANSACTION_STATUS.FAIL);
+
+            userBalanceTransactionRepository.updateUserBalanceTransactionStatus(dto);
+
+            throw new ApplicationException(-11, "insufficient amount");
+        }
 
         dto.setStatus(CONSTANT.USER_BALANCE_TRANSACTION_STATUS.SUCCESS);
         userBalanceTransactionRepository.updateUserBalanceTransactionStatus(dto);
 
-        userBalanceRepository.updateReverseBalance(dto.getUserId(), dto.getAmount());
+        userBalanceRepository.updateReverseBalance(dto.getUserId(), dto.getAmount(), userBalanceDTO.getVersion());
 
 
     }
@@ -69,7 +77,7 @@ public class UserBalanceDomain {
 
         UpdateBalanceAndTransactionResponse response = userBalanceRepository.updateTransactionAndBalance(userBalanceTransactionDTO.getId(),
                 CONSTANT.USER_BALANCE_TRANSACTION_STATUS.PROCESS,
-                userBalanceTransactionDTO.getUserId(), amount, amount * -1);
+                userBalanceTransactionDTO.getUserId(), amount, amount * -1, userBalanceDTO.getVersion());
 
         if (response == null || response.getData() == null || response.getData().getUserBalanceData() == null
                 || response.getData().getTransactionData() == null) {
@@ -99,9 +107,21 @@ public class UserBalanceDomain {
 
     public void rollbackTransaction(UserBalanceTransactionDTO entity) {
 
+        UserBalanceDTO userBalanceDTO = userBalanceRepository.findUserBalanceByUserId(entity.getUserId());
+
+        if (userBalanceDTO.getReverseBalance() < entity.getAmount()) {
+            entity.setStatus(CONSTANT.USER_BALANCE_TRANSACTION_STATUS.FAIL);
+
+            userBalanceTransactionRepository.updateUserBalanceTransactionStatus(entity);
+
+            throw new ApplicationException(-11, "insufficient amount");
+        }
+
+
+
         UpdateBalanceAndTransactionResponse response = userBalanceRepository.updateTransactionAndBalance(entity.getId(),
                 CONSTANT.USER_BALANCE_TRANSACTION_STATUS.ROLLBACK,
-                entity.getUserId(), entity.getAmount() * -1, entity.getAmount());
+                entity.getUserId(), entity.getAmount() * -1, entity.getAmount(), userBalanceDTO.getVersion());
 
         if (response == null || response.getData() == null || response.getData().getUserBalanceData() == null
                 || response.getData().getTransactionData() == null) {

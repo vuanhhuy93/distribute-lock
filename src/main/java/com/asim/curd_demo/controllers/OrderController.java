@@ -17,43 +17,16 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public BaseResponse<OrderResponse> createOrder(@RequestBody OrderRequest request){
-        BaseResponse<OrderResponse> response ;
-        try {
-            response = orderService.createOrder(request);
-        } catch (ApplicationException ex){
-            response = new BaseResponse<>();
-            response.setCode(ex.getCode());
-            response.setMessage(ex.getMessage());
-        } catch (Exception e){
-            response = new BaseResponse<>();
-            response.setCode(500);
-            response.setMessage("SYS -ERROR");
+    public BaseResponse<OrderResponse> createOrder(@RequestBody OrderRequest request) throws ApplicationException, Exception{
 
-        }
-
-
-        return response;
+            return orderService.createOrder(request);
     }
 
 
     @PutMapping()
-    public BaseResponse<OrderResponse> confirmOrCancelOrder(@RequestBody OrderActionRequest request){
-        BaseResponse<OrderResponse> response ;
-        try {
-            response = orderService.confirmOrCancelOrder(request.getId(), request.getAction());
-        } catch (ApplicationException ex){
-            response = new BaseResponse<>();
-            response.setCode(ex.getCode());
-            response.setMessage(ex.getMessage());
-        } catch (Exception e){
-            response = new BaseResponse<>();
-            response.setCode(500);
-            response.setMessage("SYS -ERROR");
+    public BaseResponse<OrderResponse> confirmOrCancelOrder(@RequestBody OrderActionRequest request) throws ApplicationException, Exception{
 
-        }
+            return orderService.confirmOrCancelOrder(request.getId(), request.getAction());
 
-
-        return response;
     }
 }

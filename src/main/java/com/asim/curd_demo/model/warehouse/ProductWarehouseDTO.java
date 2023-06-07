@@ -17,5 +17,5 @@ public class ProductWarehouseDTO {
     @JsonProperty("reverse_number")
     private int reverse_number;
 
-    private float version;
+    private int version;
 }

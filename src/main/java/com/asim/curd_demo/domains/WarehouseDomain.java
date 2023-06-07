@@ -42,7 +42,7 @@ public class WarehouseDomain {
 
         try {
 
-           boolean result =  warehouseRepository.updateActiveNumberAndReverseNumber(productId, activeNumberChange, reverseNumberChange);
+           boolean result =  warehouseRepository.updateActiveNumberAndReverseNumber(productId, activeNumberChange, reverseNumberChange, productWarehouseDTO.getVersion());
             if (!result)
                  throw new ApplicationException(-200, "not action warehouse");
         } catch (ApplicationException ex){
@@ -56,9 +56,15 @@ public class WarehouseDomain {
     }
 
     public void updateTotalAndReverseNumber(long productId, long total) {
+        ProductWarehouseDTO productWarehouseDTO = warehouseRepository.findById(productId);
+
+        if (productWarehouseDTO == null){
+            throw new ApplicationException(-200, "not action product on ware house");
+        }
 
 
-           boolean isSuccess =  warehouseRepository.updateTotalAndReverseNumber(productId, total);
+
+           boolean isSuccess =  warehouseRepository.updateTotalAndReverseNumber(productId, total, productWarehouseDTO.getVersion());
             if (!isSuccess){
                 throw new ApplicationException(-101, "update warehouse fail");
             }

@@ -26,9 +26,9 @@ public class UserBalanceRepositoryImpl extends BaseRepository implements UserBal
 
         Map<String, String> variables = new HashMap<>();
 
-        variables.put("$user_id" , String.valueOf(userId));
-        String queryResult = this.execute(QueryFile.USER_BALANCE_FIND_BY_ID, variables );
-        UserBalanceResponse userBalanceResponse =  JsonUtils.toJson(queryResult, UserBalanceResponse.class);
+        variables.put("$user_id", String.valueOf(userId));
+        String queryResult = this.execute(QueryFile.USER_BALANCE_FIND_BY_ID, variables);
+        UserBalanceResponse userBalanceResponse = JsonUtils.toJson(queryResult, UserBalanceResponse.class);
 
         if (userBalanceResponse == null || userBalanceResponse.getData() == null || CollectionUtils.isEmpty(userBalanceResponse.getData().getItems()))
             throw new ApplicationException(-10, "not load user balance");
@@ -38,31 +38,35 @@ public class UserBalanceRepositoryImpl extends BaseRepository implements UserBal
     }
 
     @Override
-    public UserBalanceDTO updateUserBalanceAndReverseBalance(long userId, double amount) {
+    public UserBalanceDTO updateUserBalanceAndReverseBalance(long userId, double amount, double version) {
 
         Map<String, String> variables = new HashMap<>();
 
-        variables.put("$user_id" , String.valueOf(userId));
-        variables.put("$amount" , String.valueOf(amount));
-        String queryResult = this.execute(QueryFile.USER_BALANCE_UPDATE_USER_BALANCE, variables );
+        variables.put("$user_id", String.valueOf(userId));
+        variables.put("$amount", String.valueOf(amount));
+        variables.put("$version", String.valueOf(version));
 
-        UserBalanceResponse userBalanceResponse =  JsonUtils.toJson(queryResult, UserBalanceResponse.class);
+        String queryResult = this.execute(QueryFile.USER_BALANCE_UPDATE_USER_BALANCE, variables);
+
+        UserBalanceResponse userBalanceResponse = JsonUtils.toJson(queryResult, UserBalanceResponse.class);
 
         if (userBalanceResponse == null || userBalanceResponse.getData() == null || CollectionUtils.isEmpty(userBalanceResponse.getData().getItems()))
-           return null;
+            return null;
 
         return userBalanceResponse.getData().getItems().get(0);
 
     }
 
     @Override
-    public UserBalanceDTO updateReverseBalance(long userId, double amount) {
+    public UserBalanceDTO updateReverseBalance(long userId, double amount, double version) {
         Map<String, String> variables = new HashMap<>();
 
-        variables.put("$user_id" , String.valueOf(userId));
-        variables.put("$amount" , String.valueOf(amount));
-        String queryResult = this.execute(QueryFile.USER_BALANCE_UPDATE_REVERSE_BALANCE, variables );
-        UserBalanceResponse userBalanceResponse =  JsonUtils.toJson(queryResult, UserBalanceResponse.class);
+        variables.put("$user_id", String.valueOf(userId));
+        variables.put("$amount", String.valueOf(amount));
+        variables.put("$version", String.valueOf(version));
+
+        String queryResult = this.execute(QueryFile.USER_BALANCE_UPDATE_REVERSE_BALANCE, variables);
+        UserBalanceResponse userBalanceResponse = JsonUtils.toJson(queryResult, UserBalanceResponse.class);
 
         if (userBalanceResponse == null || userBalanceResponse.getData() == null || CollectionUtils.isEmpty(userBalanceResponse.getData().getItems()))
             return null;
@@ -72,19 +76,22 @@ public class UserBalanceRepositoryImpl extends BaseRepository implements UserBal
 
     // reverseAmountChange > 0 ,activeAmountChange <0
     @Override
-    public UpdateBalanceAndTransactionResponse updateTransactionAndBalance(long transactionId, int status, long userId, double reverseAmountChange, double activeAmountChange) {
+    public UpdateBalanceAndTransactionResponse updateTransactionAndBalance(long transactionId, int status, long userId,
+                                                                           double reverseAmountChange,
+                                                                           double activeAmountChange, double version) {
 
         Map<String, String> variables = new HashMap<>();
 
-        variables.put("$transaction_id" , String.valueOf(transactionId));
-        variables.put("$transaction_status" , String.valueOf(status));
-        variables.put("$user_id" , String.valueOf(userId));
-        variables.put("$reverse_balance_change" , String.valueOf(reverseAmountChange));
-        variables.put("$reverse_balance_condition" , "0");
-        variables.put("$user_balance_condition" , String.valueOf(activeAmountChange));
-        variables.put("$user_balance_change" , String.valueOf(activeAmountChange));
+        variables.put("$transaction_id", String.valueOf(transactionId));
+        variables.put("$transaction_status", String.valueOf(status));
+        variables.put("$user_id", String.valueOf(userId));
+        variables.put("$reverse_balance_change", String.valueOf(reverseAmountChange));
+        variables.put("$reverse_balance_condition", "0");
+        variables.put("$user_balance_condition", String.valueOf(activeAmountChange));
+        variables.put("$user_balance_change", String.valueOf(activeAmountChange));
+        variables.put("$version", String.valueOf(version));
 
-        String queryResult = this.execute(QueryFile.USER_BALANCE_UPDATE_USER_BALANCE_AND_TRANSACTION, variables );
+        String queryResult = this.execute(QueryFile.USER_BALANCE_UPDATE_USER_BALANCE_AND_TRANSACTION, variables);
         return JsonUtils.toJson(queryResult, UpdateBalanceAndTransactionResponse.class);
 
     }
@@ -92,18 +99,20 @@ public class UserBalanceRepositoryImpl extends BaseRepository implements UserBal
 
     // reverseAmountChange < 0 ,activeAmountChange > 0
     @Override
-    public UpdateBalanceAndTransactionResponse rollbackTransactionAndBalance(long transactionId, int status, long userId, double reverseAmountChange, double activeAmountChange) {
+    public UpdateBalanceAndTransactionResponse rollbackTransactionAndBalance(long transactionId, int status, long userId,
+                                                                             double reverseAmountChange, double activeAmountChange, double version) {
         Map<String, String> variables = new HashMap<>();
 
-        variables.put("$transaction_id" , String.valueOf(transactionId));
-        variables.put("$transaction_status" , String.valueOf(status));
-        variables.put("$user_id" , String.valueOf(userId));
-        variables.put("$reverse_balance_change" , String.valueOf(reverseAmountChange));
-        variables.put("$reverse_balance_condition" , String.valueOf(reverseAmountChange * -1));
-        variables.put("$user_balance_condition" , "0");
-        variables.put("$user_balance_change" , String.valueOf(activeAmountChange));
+        variables.put("$transaction_id", String.valueOf(transactionId));
+        variables.put("$transaction_status", String.valueOf(status));
+        variables.put("$user_id", String.valueOf(userId));
+        variables.put("$reverse_balance_change", String.valueOf(reverseAmountChange));
+        variables.put("$reverse_balance_condition", String.valueOf(reverseAmountChange * -1));
+        variables.put("$user_balance_condition", "0");
+        variables.put("$user_balance_change", String.valueOf(activeAmountChange));
+        variables.put("$version", String.valueOf(version));
 
-        String queryResult = this.execute(QueryFile.USER_BALANCE_UPDATE_USER_BALANCE_AND_TRANSACTION, variables );
+        String queryResult = this.execute(QueryFile.USER_BALANCE_UPDATE_USER_BALANCE_AND_TRANSACTION, variables);
         return JsonUtils.toJson(queryResult, UpdateBalanceAndTransactionResponse.class);
 
     }

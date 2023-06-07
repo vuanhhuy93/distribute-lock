@@ -20,13 +20,11 @@ public class WareHouseRepositoryImpl implements WarehouseRepository {
 
     private GraphQLClient graphQLClient;
 
-
-
     public WareHouseRepositoryImpl(@Autowired GraphQLClient graphQLClient) {
         this.graphQLClient = graphQLClient;
     }
     @Override
-    public boolean updateActiveNumberAndReverseNumber(long productId, long activeNumberChange, long reverseNumberChange) {
+    public boolean updateActiveNumberAndReverseNumber(long productId, long activeNumberChange, long reverseNumberChange, double version) {
 
         String query = QueryFile.readFile(QueryFile.WAREHOUSE_UPDATE_REVERSE_ACTIVE);
 
@@ -47,7 +45,7 @@ public class WareHouseRepositoryImpl implements WarehouseRepository {
         }
         query = query.replace("$reverse_number_change" ,  String.valueOf(reverseNumberChange));
 
-
+        query = query.replace("$version" , String.valueOf(version));
 
 
         String queryResult = GraphQLUtils.query(graphQLClient, query);
@@ -66,13 +64,16 @@ public class WareHouseRepositoryImpl implements WarehouseRepository {
     }
 
     @Override
-    public boolean updateTotalAndReverseNumber(long productId, long total) {
+    public boolean updateTotalAndReverseNumber(long productId, long total, double version) {
 
         String query = QueryFile.readFile(QueryFile.WAREHOUSE_UPDATE_REVERSE_TOTAL);
 
         query = query.replace("$product_id" ,  String.valueOf(productId));
 
         query = query.replace("$total" ,  String.valueOf(total));
+
+        query = query.replace("$version" , String.valueOf(version));
+
 
         String queryResult = GraphQLUtils.query(graphQLClient, query);
         log.debug("result {}" , queryResult);

@@ -1,7 +1,7 @@
 mutation{
           update_user_db_v2_warehouse(
-            where: {product_id: {_eq: $product_id} , reverse_number : {_gte: $total} },
-            _inc: {total: -$total,  reverse_number: -$total, version: 0.1}
+            where: {product_id: {_eq: $product_id}, version : {_eq: $version }},
+            _inc: {total: -$total,  reverse_number: -$total, version: 1}
           ) { returning{
             product_id
             total

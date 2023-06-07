@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WarehouseRepository {
 
-    boolean updateActiveNumberAndReverseNumber(long productId, long activeNumberChange, long reverseNumberChange);
+    boolean updateActiveNumberAndReverseNumber(long productId, long activeNumberChange, long reverseNumberChange, double version);
 
-    boolean updateTotalAndReverseNumber(long productId, long total);
+    boolean updateTotalAndReverseNumber(long productId, long total, double version);
 
     ProductWarehouseDTO findById(long productId);
 }
