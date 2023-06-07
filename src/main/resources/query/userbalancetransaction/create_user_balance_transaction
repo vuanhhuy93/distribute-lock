@@ -1,0 +1,14 @@
+mutation InsertUserBalanceTransaction {
+  insert_user_db_user_balance_transaction(objects: {user_id: $user_id, status : $status,
+    amount: $amount, action_type: $action_type}) {
+    returning {
+      amount
+	  action_type
+	  id
+	  status
+	  user_id
+	  created_at
+	  updated_at
+    }
+  }
+}

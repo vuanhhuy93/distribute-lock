@@ -1,0 +1,11 @@
+query GetUserBalanceTransaction {
+  user_db_user_balance_transaction(where :{id: {_eq: $id}}) {
+    amount
+		action_type
+		id
+		status
+		user_id
+		created_at
+		updated_at
+  }
+}

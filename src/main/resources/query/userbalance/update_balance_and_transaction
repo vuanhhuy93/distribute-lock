@@ -1,0 +1,24 @@
+mutation UpdateUserBalanceAndTransaction {
+ update_user_db_user_balance_transaction(
+            where: {id: {_eq: $transaction_id} },
+           	_set:{status: $transaction_status}
+          ) { returning{
+             amount
+            	  action_type
+            	  id
+            	  status
+            	  user_id
+            	  created_at
+            	  updated_at
+          }
+          }
+
+  update_user_db_user_balance(
+            where: {user_id: {_eq: $user_id} , reverse_balance : {_gte: $reverse_balance_condition }, user_balance : {_gte: $user_balance_condition }},
+            _inc: { reverse_balance: $reverse_balance_change, user_balance: $user_balance_change }
+          ) { returning{
+           user_id
+           reverse_balance
+           user_balance
+  }}
+}

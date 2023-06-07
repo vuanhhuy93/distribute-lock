@@ -1,0 +1,11 @@
+query GetOrder {
+  user_db_order (where: {id: {_eq: $id}}){
+    id
+	product_id
+	total
+	amount
+	user_id
+	status
+	transaction_id
+  }
+}

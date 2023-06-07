@@ -1,0 +1,14 @@
+mutation InsertOrder {
+  insert_user_db_order(objects: {product_id: $product_id, user_id: $user_id,
+    status: $status, amount: $amount, total: $total, transaction_id: $transaction_id}) {
+    returning {
+            amount
+			id
+			product_id
+			status
+			total
+			user_id
+			transaction_id
+    }
+  }
+}

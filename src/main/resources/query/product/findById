@@ -1,0 +1,7 @@
+query GetProductById{
+  user_db_product(where :{id: {_eq: $id}}) {
+    product_name
+	id
+	price
+  }
+}

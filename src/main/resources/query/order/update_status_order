@@ -1,0 +1,15 @@
+mutation{
+          update_user_db_order(
+            where: {id: {_eq: $id} },
+           	_set:{status: $status}
+          ) { returning{
+            amount
+			id
+			product_id
+			status
+			total
+			user_id
+			transaction_id
+          }
+          }
+        }

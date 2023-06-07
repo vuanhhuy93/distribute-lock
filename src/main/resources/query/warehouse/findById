@@ -1,0 +1,8 @@
+query GetProductWarehouseInfo{
+  user_db_warehouse(where :{product_id: {_eq: $product_id}}) {
+    product_id
+	total
+	active_number
+	reverse_number
+  }
+}

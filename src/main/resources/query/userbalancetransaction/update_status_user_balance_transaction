@@ -1,0 +1,15 @@
+mutation{
+          update_user_db_user_balance_transaction(
+            where: {id: {_eq: $id} },
+           	_set:{status: $status}
+          ) { returning{
+             amount
+            	  action_type
+            	  id
+            	  status
+            	  user_id
+            	  created_at
+            	  updated_at
+          }
+          }
+        }
