@@ -1,5 +1,5 @@
 query GetOrder {
-  user_db_order (where: {id: {_eq: $id}}){
+  user_db_v2_order (where: {id: {_eq: $id}}){
     id
 	product_id
 	total

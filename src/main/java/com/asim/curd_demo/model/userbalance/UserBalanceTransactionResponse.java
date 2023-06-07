@@ -12,7 +12,7 @@ public class UserBalanceTransactionResponse {
     @Data
     public static class UserBalanceTransactionData{
 
-        @JsonProperty("user_db_user_balance_transaction")
+        @JsonProperty("user_db_v2_user_balance_transaction")
         private List<UserBalanceTransactionDTO> items;
     }
 }

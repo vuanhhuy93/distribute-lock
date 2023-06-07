@@ -13,8 +13,6 @@ import com.asim.curd_demo.model.userbalance.UserBalanceTransactionDTO;
 import com.asim.curd_demo.utils.ApplicationException;
 import com.asim.curd_demo.utils.CONSTANT;
 import lombok.extern.log4j.Log4j2;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +33,6 @@ public class OrderService {
 
     @Autowired
     OrderDomain orderDomain;
-
-    @Autowired
-    RedissonClient redissonClient;
 
     public BaseResponse<OrderResponse> confirmOrCancelOrder(long id, int action){
         BaseResponse<OrderResponse> response = new BaseResponse<>();

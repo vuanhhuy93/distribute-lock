@@ -1,12 +1,13 @@
 mutation{
-          update_user_db_warehouse(
+          update_user_db_v2_warehouse(
             where: {product_id: {_eq: $product_id} , active_number : {_gte: $active_number_condition},
              reverse_number : {_gte: $reverse_number_condition}},
-            _inc: {active_number: $active_number_change,  reverse_number: $reverse_number_change,}
+            _inc: {active_number: $active_number_change,  reverse_number: $reverse_number_change, version: 0.1}
           ) { returning{
             product_id
             active_number
             reverse_number
+            version
           }
           }
         },

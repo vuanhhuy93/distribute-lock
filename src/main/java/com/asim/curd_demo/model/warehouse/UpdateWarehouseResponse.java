@@ -11,7 +11,7 @@ public class UpdateWarehouseResponse {
     @Data
     public static class ProductWarehouseData{
 
-        @JsonProperty("update_user_db_warehouse")
+        @JsonProperty("update_user_db_v2_warehouse")
         private ProductWarehouseResult returning;
     }
 

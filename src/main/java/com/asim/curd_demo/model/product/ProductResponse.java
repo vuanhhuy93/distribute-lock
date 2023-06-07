@@ -11,7 +11,7 @@ public class ProductResponse {
     private UserDBProduct data;
     @Data
     public static class UserDBProduct{
-        @JsonProperty("user_db_product")
+        @JsonProperty("user_db_v2_product")
         private List<ProductDTO> productItems;
     }
 }

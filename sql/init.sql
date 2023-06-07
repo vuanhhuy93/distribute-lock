@@ -3,7 +3,8 @@ create table user_balance
     user_id         integer                      not null
         primary key,
     user_balance    double precision default 0.0 not null,
-    reverse_balance double precision default 0.0 not null
+    reverse_balance double precision default 0.0 not null,
+    version         double precision default 1.0 not null
 );
 
 alter table user_balance
@@ -57,7 +58,8 @@ create table "order"
     amount         double precision default 0.0 not null,
     user_id        integer                      not null,
     status         integer          default 1   not null,
-    transaction_id bigint           default 0   not null
+    transaction_id bigint           default 0   not null,
+    version        double precision default 1.0 not null
 );
 
 alter table "order"

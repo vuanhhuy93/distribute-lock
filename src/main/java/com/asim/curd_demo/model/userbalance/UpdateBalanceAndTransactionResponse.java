@@ -12,10 +12,10 @@ public class UpdateBalanceAndTransactionResponse {
     private ResponseData data;
     @Data
     public static class ResponseData{
-        @JsonProperty("update_user_db_user_balance")
+        @JsonProperty("update_user_db_v2_user_balance")
         private UpdateUserBalanceData userBalanceData;
 
-        @JsonProperty("update_user_db_user_balance_transaction")
+        @JsonProperty("update_user_db_v2_user_balance_transaction")
         private UpdateTransactionData transactionData;
     }
 

@@ -1,5 +1,5 @@
 mutation{
-          update_user_db_order(
+          update_user_db_v2_order(
             where: {id: {_eq: $id} },
            	_set:{status: $status}
           ) { returning{

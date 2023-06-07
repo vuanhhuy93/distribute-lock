@@ -1,5 +1,5 @@
 mutation InsertUserBalanceTransaction {
-  insert_user_db_user_balance_transaction(objects: {user_id: $user_id, status : $status,
+  insert_user_db_v2_user_balance_transaction(objects: {user_id: $user_id, status : $status,
     amount: $amount, action_type: $action_type}) {
     returning {
       amount

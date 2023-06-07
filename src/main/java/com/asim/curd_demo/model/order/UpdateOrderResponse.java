@@ -12,7 +12,7 @@ public class UpdateOrderResponse {
     @Data
     public static class UpdateOrderData{
 
-        @JsonProperty("update_user_db_order")
+        @JsonProperty("update_user_db_v2_order")
         private UpdateOrderReturning data;
     }
 

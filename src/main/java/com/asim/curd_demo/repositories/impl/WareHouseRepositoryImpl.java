@@ -3,6 +3,7 @@ package com.asim.curd_demo.repositories.impl;
 import com.asim.curd_demo.config.graphql.GraphQLClient;
 import com.asim.curd_demo.config.graphql.GraphQLUtils;
 import com.asim.curd_demo.model.product.ProductResponse;
+import com.asim.curd_demo.model.warehouse.ProductWarehouseDTO;
 import com.asim.curd_demo.model.warehouse.ProductWarehouseResponse;
 import com.asim.curd_demo.model.warehouse.UpdateWarehouseResponse;
 import com.asim.curd_demo.repositories.WarehouseRepository;
@@ -86,4 +87,27 @@ public class WareHouseRepositoryImpl implements WarehouseRepository {
 
         return  !CollectionUtils.isEmpty(response.getData().getReturning().getItems());
     }
+
+    @Override
+    public ProductWarehouseDTO findById(long productId) {
+        String query = QueryFile.readFile(QueryFile.WAREHOUSE_FIND_BY_ID);
+
+        query = query.replace("$product_id" ,  String.valueOf(productId));
+
+        String queryResult = GraphQLUtils.query(graphQLClient, query);
+        log.debug("result {}" , queryResult);
+
+        ProductWarehouseResponse response = JsonUtils.toJson(queryResult, ProductWarehouseResponse.class);
+
+        if (response == null || response.getData() == null || CollectionUtils.isEmpty(response.getData().getItems())){
+
+            log.debug("response not convert to DTO or data is null");
+            return null;
+        }
+
+        return response.getData().getItems().get(0);
+
+    }
+
+
 }

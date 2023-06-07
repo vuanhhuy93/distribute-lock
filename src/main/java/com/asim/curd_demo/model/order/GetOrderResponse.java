@@ -13,7 +13,7 @@ public class GetOrderResponse {
     @Data
     public static class GetOrderData{
 
-        @JsonProperty("user_db_order")
+        @JsonProperty("user_db_v2_order")
         private List<OrderDTO> items;
     }
 }

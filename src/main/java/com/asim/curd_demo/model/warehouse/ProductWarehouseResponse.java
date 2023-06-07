@@ -11,7 +11,7 @@ public class ProductWarehouseResponse {
     @Data
     public static class ProductWarehouseData{
 
-        @JsonProperty("user_db_warehouse")
+        @JsonProperty("user_db_v2_warehouse")
         private List<ProductWarehouseDTO> items;
     }
 }

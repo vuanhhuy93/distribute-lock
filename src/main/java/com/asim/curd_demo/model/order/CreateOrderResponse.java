@@ -12,7 +12,7 @@ public class CreateOrderResponse {
 
     @Data
     public static class CreateOrderData{
-        @JsonProperty("insert_user_db_order")
+        @JsonProperty("insert_user_db_v2_order")
         private CreateOrderReturn result;
 
     }

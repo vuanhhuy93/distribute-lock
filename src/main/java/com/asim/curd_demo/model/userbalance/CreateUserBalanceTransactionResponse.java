@@ -12,7 +12,7 @@ public class CreateUserBalanceTransactionResponse {
     @Data
     public static class UserBalanceTransactionData{
 
-        @JsonProperty("insert_user_db_user_balance_transaction")
+        @JsonProperty("insert_user_db_v2_user_balance_transaction")
         private UserBalanceTransactionReturn item;
     }
 

@@ -11,4 +11,6 @@ public class UserBalanceDTO {
 
     @JsonProperty("reverse_balance")
     private double reverseBalance;
+
+    private float version;
 }

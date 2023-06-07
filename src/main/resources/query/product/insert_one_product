@@ -1,5 +1,5 @@
 mutation {
-  insert_user_db_product(objects: [{
+  insert_user_db_v2_product(objects: [{
       product_name: $product_name }]
   ) { returning{
     id

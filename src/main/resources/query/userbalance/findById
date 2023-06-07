@@ -1,7 +1,8 @@
 query GetUserBalance {
-  user_db_user_balance (where :{user_id: {_eq: $user_id}}){
+  user_db_v2_user_balance (where :{user_id: {_eq: $user_id}}){
     reverse_balance
 		user_balance
 		user_id
+		version
   }
 }
