@@ -1,12 +1,10 @@
-mutation{
-          update_user_db_v2_warehouse(
-            where: {product_id: {_eq: $product_id} , version : {_eq: $version }}
-            _inc: {active_number: $active_number_change,  reverse_number: $reverse_number_change, version: 1}
-          ) { returning{
-            product_id
-            active_number
-            reverse_number
-            version
-          }
-          }
-        }
+query {
+   user_db_v2_updatereversenumberonwarehouse(args:{productid: $product_id, updatenumber: $change_number} ){
+    product_id
+    total
+    active_number
+    reverse_number
+    version
+  }
+}
+         

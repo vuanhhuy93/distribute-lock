@@ -2,7 +2,6 @@ package com.asim.curd_demo.repositories.impl;
 
 import com.asim.curd_demo.config.graphql.GraphQLClient;
 import com.asim.curd_demo.config.graphql.GraphQLUtils;
-import com.asim.curd_demo.model.product.ProductResponse;
 import com.asim.curd_demo.model.warehouse.ProductWarehouseDTO;
 import com.asim.curd_demo.model.warehouse.ProductWarehouseResponse;
 import com.asim.curd_demo.model.warehouse.UpdateWarehouseResponse;
@@ -26,26 +25,16 @@ public class WareHouseRepositoryImpl implements WarehouseRepository {
     @Override
     public boolean updateActiveNumberAndReverseNumber(long productId, long activeNumberChange, long reverseNumberChange, double version) {
 
-        String query = QueryFile.readFile(QueryFile.WAREHOUSE_UPDATE_REVERSE_ACTIVE);
+        String query = QueryFile.readFile(QueryFile.WAREHOUSE_UPDATE);
 
-        query = query.replace("$product_id" ,  String.valueOf(productId));
+        query = query.replace("$productid" ,  String.valueOf(productId));
 
-        if (activeNumberChange < 0){
-            query = query.replace("$active_number_condition" ,  String.valueOf(activeNumberChange * -1));
-        } else {
-            query = query.replace("$active_number_condition" ,  "0");
-        }
-        query = query.replace("$active_number_change" ,  String.valueOf(activeNumberChange));
+        query = query.replace("$updatenumbertotal" ,  "0");
 
+        query = query.replace("$updateactivenumber" ,  String.valueOf(activeNumberChange));
 
-        if (reverseNumberChange < 0){
-            query = query.replace("$reverse_number_condition" ,  String.valueOf(reverseNumberChange * -1));
-        } else {
-            query = query.replace("$reverse_number_condition" ,  "0");
-        }
-        query = query.replace("$reverse_number_change" ,  String.valueOf(reverseNumberChange));
+        query = query.replace("$updatereversenumber" ,  String.valueOf(reverseNumberChange));
 
-        query = query.replace("$version" , String.valueOf(version));
 
 
         String queryResult = GraphQLUtils.query(graphQLClient, query);
@@ -54,7 +43,7 @@ public class WareHouseRepositoryImpl implements WarehouseRepository {
         UpdateWarehouseResponse response = JsonUtils.toJson(queryResult, UpdateWarehouseResponse.class);
 
         if (response == null || response.getData() == null
-                || CollectionUtils.isEmpty(response.getData().getReturning().getItems())){
+                || response.getData().getReturning().getProductId() == null){
 
             log.debug("response not convert to DTO or data is null");
             return false;
@@ -66,13 +55,16 @@ public class WareHouseRepositoryImpl implements WarehouseRepository {
     @Override
     public boolean updateTotalAndReverseNumber(long productId, long total, double version) {
 
-        String query = QueryFile.readFile(QueryFile.WAREHOUSE_UPDATE_REVERSE_TOTAL);
+        String query = QueryFile.readFile(QueryFile.WAREHOUSE_UPDATE);
 
-        query = query.replace("$product_id" ,  String.valueOf(productId));
+        query = query.replace("$productid" ,  String.valueOf(productId));
 
-        query = query.replace("$total" ,  String.valueOf(total));
+        query = query.replace("$updatenumbertotal" ,  String.valueOf(total));
 
-        query = query.replace("$version" , String.valueOf(version));
+        query = query.replace("$updateactivenumber" ,  "0");
+
+        query = query.replace("$updatereversenumber" ,  String.valueOf(total));
+
 
 
         String queryResult = GraphQLUtils.query(graphQLClient, query);
@@ -80,13 +72,14 @@ public class WareHouseRepositoryImpl implements WarehouseRepository {
 
         UpdateWarehouseResponse response = JsonUtils.toJson(queryResult, UpdateWarehouseResponse.class);
 
-        if (response == null || response.getData() == null){
+        if (response == null || response.getData() == null
+                || response.getData().getReturning().getProductId() == null){
 
             log.debug("response not convert to DTO or data is null");
             return false;
         }
 
-        return  !CollectionUtils.isEmpty(response.getData().getReturning().getItems());
+        return true;
     }
 
     @Override

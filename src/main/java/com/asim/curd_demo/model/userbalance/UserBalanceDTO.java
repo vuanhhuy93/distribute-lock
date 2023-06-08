@@ -5,12 +5,13 @@ import lombok.Data;
 
 @Data
 public class UserBalanceDTO {
-    private long userId;
+    @JsonProperty("user_id")
+    private Long userId;
     @JsonProperty("user_balance")
-    private double userBalance;
+    private Double userBalance;
 
     @JsonProperty("reverse_balance")
-    private double reverseBalance;
+    private Double reverseBalance;
 
-    private int version;
+    private Integer version;
 }

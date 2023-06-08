@@ -1,0 +1,10 @@
+query {
+   user_db_v2_updatewarehouse(args:{productid: $productid, updatenumbertotal: $updatenumbertotal ,
+    updateactivenumber: $updateactivenumber, updatereversenumber: $updatereversenumber} ){
+    product_id
+    total
+    active_number
+    reverse_number
+    version
+  }
+}

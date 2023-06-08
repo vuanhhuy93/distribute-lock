@@ -6,16 +6,16 @@ import lombok.Data;
 @Data
 public class ProductWarehouseDTO {
     @JsonProperty("product_id")
-    private long productId;
+    private Long productId;
 
     @JsonProperty("total")
-    private int total;
+    private Integer total;
 
     @JsonProperty("active_number")
-    private int activeNumber;
+    private Integer activeNumber;
 
     @JsonProperty("reverse_number")
-    private int reverse_number;
+    private Integer reverse_number;
 
-    private int version;
+    private Integer version;
 }

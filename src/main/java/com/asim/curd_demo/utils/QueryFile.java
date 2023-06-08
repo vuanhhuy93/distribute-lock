@@ -10,7 +10,7 @@ public class QueryFile {
 
     public static final String WAREHOUSE_FIND_BY_ID = "query/warehouse/findById";
     public static final String WAREHOUSE_UPDATE_REVERSE_ACTIVE = "query/warehouse/update_reverse_active";
-    public static final String WAREHOUSE_UPDATE_REVERSE_TOTAL = "query/warehouse/update_reverse_total";
+    public static final String WAREHOUSE_UPDATE = "query/warehouse/update";
     public static final String USER_BALANCE_FIND_BY_ID = "query/userbalance/findById";
     public static final String USER_BALANCE_UPDATE_REVERSE_BALANCE = "query/userbalance/update_reverse_balance";
     public static final String USER_BALANCE_UPDATE_USER_BALANCE = "query/userbalance/update_user_balance";

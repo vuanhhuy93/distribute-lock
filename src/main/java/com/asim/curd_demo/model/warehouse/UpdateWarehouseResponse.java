@@ -11,13 +11,9 @@ public class UpdateWarehouseResponse {
     @Data
     public static class ProductWarehouseData{
 
-        @JsonProperty("update_user_db_v2_warehouse")
-        private ProductWarehouseResult returning;
+        @JsonProperty("user_db_v2_updatewarehouse")
+        private ProductWarehouseDTO returning;
     }
 
-    @Data
-    public static class ProductWarehouseResult{
-        @JsonProperty("returning")
-        private List<ProductWarehouseDTO> items;
-    }
+
 }

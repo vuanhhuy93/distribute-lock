@@ -1,10 +1,10 @@
 mutation{
-          update_user_db_v2_user_balance(
-            where: {user_id: {_eq: $user_id} , version : {_eq: $version },
-            _inc: {user_balance: -$amount,  reverse_balance: $amount, version: 1}
-          ) { returning{
-           user_id
-      reverse_balance
-            user_balance
-            version
-  }}}
+            user_db_v2_updateuserbalance(args:{userid: $user_id, activenumberchange: $user_balance_change ,
+             reversenumberchange: $reverse_balance_change } ){
+               user_id
+               user_balance
+               reverse_balance
+               version
+             }
+
+         }

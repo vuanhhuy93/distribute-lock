@@ -41,7 +41,7 @@ public class UserBalanceDomain {
         dto.setStatus(CONSTANT.USER_BALANCE_TRANSACTION_STATUS.SUCCESS);
         userBalanceTransactionRepository.updateUserBalanceTransactionStatus(dto);
 
-        userBalanceRepository.updateReverseBalance(dto.getUserId(), dto.getAmount(), userBalanceDTO.getVersion());
+        userBalanceRepository.update(dto.getUserId(),0D ,dto.getAmount() * -1, userBalanceDTO.getVersion());
 
 
     }

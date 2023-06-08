@@ -64,10 +64,9 @@ public class WarehouseDomain {
 
 
 
-           boolean isSuccess =  warehouseRepository.updateTotalAndReverseNumber(productId, total, productWarehouseDTO.getVersion());
+           boolean isSuccess =  warehouseRepository.updateTotalAndReverseNumber(productId, total * -1, productWarehouseDTO.getVersion());
             if (!isSuccess){
                 throw new ApplicationException(-101, "update warehouse fail");
             }
-
     }
 }

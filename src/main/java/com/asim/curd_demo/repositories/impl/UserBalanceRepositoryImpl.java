@@ -3,6 +3,7 @@ package com.asim.curd_demo.repositories.impl;
 import com.asim.curd_demo.config.graphql.GraphQLUtils;
 import com.asim.curd_demo.model.product.ProductResponse;
 import com.asim.curd_demo.model.userbalance.UpdateBalanceAndTransactionResponse;
+import com.asim.curd_demo.model.userbalance.UpdateUserBalanceResponse;
 import com.asim.curd_demo.model.userbalance.UserBalanceDTO;
 import com.asim.curd_demo.model.userbalance.UserBalanceResponse;
 import com.asim.curd_demo.repositories.UserBalanceRepository;
@@ -38,43 +39,24 @@ public class UserBalanceRepositoryImpl extends BaseRepository implements UserBal
     }
 
     @Override
-    public UserBalanceDTO updateUserBalanceAndReverseBalance(long userId, double amount, double version) {
-
+    public UserBalanceDTO update(long userId, double userBalance, double reverseBalance, double version) {
         Map<String, String> variables = new HashMap<>();
 
         variables.put("$user_id", String.valueOf(userId));
-        variables.put("$amount", String.valueOf(amount));
-        variables.put("$version", String.valueOf(version));
+        variables.put("$reverse_balance_change", String.valueOf(reverseBalance));
+        variables.put("$user_balance_change", String.valueOf(userBalance));
 
         String queryResult = this.execute(QueryFile.USER_BALANCE_UPDATE_USER_BALANCE, variables);
+        UpdateUserBalanceResponse userBalanceResponse = JsonUtils.toJson(queryResult, UpdateUserBalanceResponse.class);
 
-        UserBalanceResponse userBalanceResponse = JsonUtils.toJson(queryResult, UserBalanceResponse.class);
-
-        if (userBalanceResponse == null || userBalanceResponse.getData() == null || CollectionUtils.isEmpty(userBalanceResponse.getData().getItems()))
+        if (userBalanceResponse == null || userBalanceResponse.getData() == null ||
+                userBalanceResponse.getData().getItems() == null ||
+                userBalanceResponse.getData().getItems().getUserId() == null)
             return null;
 
-        return userBalanceResponse.getData().getItems().get(0);
-
+        return userBalanceResponse.getData().getItems();
     }
 
-    @Override
-    public UserBalanceDTO updateReverseBalance(long userId, double amount, double version) {
-        Map<String, String> variables = new HashMap<>();
-
-        variables.put("$user_id", String.valueOf(userId));
-        variables.put("$amount", String.valueOf(amount));
-        variables.put("$version", String.valueOf(version));
-
-        String queryResult = this.execute(QueryFile.USER_BALANCE_UPDATE_REVERSE_BALANCE, variables);
-        UserBalanceResponse userBalanceResponse = JsonUtils.toJson(queryResult, UserBalanceResponse.class);
-
-        if (userBalanceResponse == null || userBalanceResponse.getData() == null || CollectionUtils.isEmpty(userBalanceResponse.getData().getItems()))
-            return null;
-
-        return userBalanceResponse.getData().getItems().get(0);
-    }
-
-    // reverseAmountChange > 0 ,activeAmountChange <0
     @Override
     public UpdateBalanceAndTransactionResponse updateTransactionAndBalance(long transactionId, int status, long userId,
                                                                            double reverseAmountChange,
@@ -86,8 +68,6 @@ public class UserBalanceRepositoryImpl extends BaseRepository implements UserBal
         variables.put("$transaction_status", String.valueOf(status));
         variables.put("$user_id", String.valueOf(userId));
         variables.put("$reverse_balance_change", String.valueOf(reverseAmountChange));
-        variables.put("$reverse_balance_condition", "0");
-        variables.put("$user_balance_condition", String.valueOf(activeAmountChange));
         variables.put("$user_balance_change", String.valueOf(activeAmountChange));
         variables.put("$version", String.valueOf(version));
 
@@ -107,8 +87,6 @@ public class UserBalanceRepositoryImpl extends BaseRepository implements UserBal
         variables.put("$transaction_status", String.valueOf(status));
         variables.put("$user_id", String.valueOf(userId));
         variables.put("$reverse_balance_change", String.valueOf(reverseAmountChange));
-        variables.put("$reverse_balance_condition", String.valueOf(reverseAmountChange * -1));
-        variables.put("$user_balance_condition", "0");
         variables.put("$user_balance_change", String.valueOf(activeAmountChange));
         variables.put("$version", String.valueOf(version));
 
