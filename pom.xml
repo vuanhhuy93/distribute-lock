@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.asim</groupId>
     <artifactId>curd_demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>curd_demo</name>
     <description>curd_demo</description>
     <properties>
