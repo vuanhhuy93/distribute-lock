@@ -19,13 +19,15 @@ public class ControllerAOP {
     @Around("(applicationControllerAllMethod()) ")
     public Object logAspectController(ProceedingJoinPoint pjp) throws Throwable {
 
-        long requestTime = System.currentTimeMillis();
+
 
         MetricsBenchmark metricsBenchmark = MetricsBenchmark.getInstance();
 
-        metricsBenchmark.statisticMetris(requestTime, 1, "TEST");
+        long startTime = System.nanoTime();
+        Object result  = pjp.proceed();
+        metricsBenchmark.statisticMetris(startTime, 1, "TEST");
 
-        return pjp.proceed();
+        return result;
 
     }
 }
