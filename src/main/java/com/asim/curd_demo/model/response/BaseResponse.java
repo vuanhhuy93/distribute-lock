@@ -12,4 +12,9 @@ public class BaseResponse <T>{
         code = 1;
         message = "SUCCESS";
     }
+
+    public BaseResponse(int code, String messsage){
+        this.code = code;
+        this.message = messsage;
+    }
 }
