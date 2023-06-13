@@ -1,0 +1,21 @@
+server:
+  port: 8181
+  tomcat:
+    threads.max: 50
+    max-connections: 50
+graphql.url: http://103.70.12.172:8080/v1/graphql
+logging.level.root: info
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: [ "health","prometheus", "metrics" ]
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
